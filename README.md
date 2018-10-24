@@ -1,4 +1,6 @@
 ## Welcome to VisionSimulator
+A virtue platform to run image processing simulation for smartcar race
+这是一个智能车图像仿真工具
 
 ### 一、工程依赖：
 
