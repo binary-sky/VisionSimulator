@@ -1,15 +1,23 @@
 ## Welcome to VisionSimulator
 
-一、工程依赖：
-	vc14工具集
-	opencv.win.native nuget包
+### 一、工程依赖：
 
-二、基于minecraft的图像虚拟平台
-2.1 Minecraft
+vc14工具集
+
+opencv.win.native nuget包
+
+
+
+### 二、基于minecraft的图像虚拟平台
+#### 2.1 Minecraft
 建议使用版本1.12.2，建议下载方式：
-	Java版本：我的世界中文下载站（不过请支持正版~）
-	网易mc中国版（免费正版）
-	Windows应用商店版本（付费）
+
+	Java版本：我的世界中文下载站（不过请支持正版~）
+	
+	网易mc中国版（免费正版）
+	
+	Windows应用商店版本（付费）
+	
 安装后，打开我提供的example世界。如何制作世界请自行参考其他资料。
      
 1.	使用独立显卡运行游戏！
@@ -24,20 +32,24 @@
 10.	/gamerule doMobSpawning false禁止生物出现
 11.	/weather rain 雪花噪点
 12.	F3查看当前坐标：所处高度，摄像头指向等
-2.2 VisionSimulator
-2.2.1 注意事项
+
+### 2.2 VisionSimulator
+#### 2.2.1 注意事项
+
 使用Visual Studio 2017或Visual Studio 2015,为保证程序能够正确编译，请配置平台工具集为Visual Studio 2015（v140）。
  
 否则nuget获得的opencv会出问题。
-2.2.2 开始
+
+#### 2.2.2 开始
 编译运行，程序检测所有windows窗体，选择其中的Minecraft窗体，如图：
  
-2.2.3 运行
+#### 2.2.3 运行
 将游戏界面拖到你能看到的位置，此时程序将会实时捕获游戏界面。
  
-2.2.4 裁剪
+#### 2.2.4 裁剪
 如果捕获的画面包含有标题栏等不希望出现的东西，按控制台上的提示按按键调整。
-2.2.5边界柔和以及二值化
+
+#### 2.2.5边界柔和以及二值化
 使用下面的代码进行边界柔和以及二值化。
 
 		cvtColor(src_orig, src_gray, CV_BGR2GRAY);//灰度化
@@ -55,11 +67,11 @@
 			(double)_target_width / (src_blur.cols));//转化为80*60的灰度图
 		threshold(target_img, img_threshold, 0, 255, CV_THRESH_OTSU);//大津法二值化
 
-2.2.6 图像处理接口
-	三个文件负责处理图像：
+#### 2.2.6 图像处理接口
+	三个文件负责处理图像：
  
 
-	测试的图像处理函数的内容
+	测试的图像处理函数的内容
 
 //下面几个头文件使得该文件（imageprocess）可以跨越单片机和电脑，复制粘贴后即可运行在单片机上
 //请在单片机和电脑上编写不同的"environment.h"和"extVarContainer.h"
@@ -84,7 +96,7 @@ int imageProcessOnChipAndOnVS(uint8_t (*img)[CAMERA_COLS])
 	return 0;
 }
 
-	主程序中的图像处理函数接口：
+	主程序中的图像处理函数接口：
 		if (src_blur.rows > 0 && src_blur.rows > 0) {
 			imshow(outputname, src_blur);//显示采集后模糊的图像
 		}
@@ -110,6 +122,6 @@ int imageProcessOnChipAndOnVS(uint8_t (*img)[CAMERA_COLS])
 			imshow("处理后的图像", img_result);//显示结果
 		}
 
-三、等你开发
+### 等你开发
 
 
