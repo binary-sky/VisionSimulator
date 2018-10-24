@@ -1,0 +1,17 @@
+﻿  x.cpp
+c:\users\fqxma\source\repos\x\packages\opencv.win.native.310.3.0\build\native\include\opencv2\core\mat.hpp(1914): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+c:\users\fqxma\source\repos\x\packages\opencv.win.native.310.3.0\build\native\include\opencv2\core\persistence.hpp : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+c:\users\fqxma\source\repos\x\packages\opencv.win.native.310.3.0\build\native\include\opencv2\core\utility.hpp : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+c:\users\fqxma\source\repos\x\packages\opencv.win.native.310.3.0\build\native\include\opencv2\core\utility.hpp : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+c:\users\fqxma\source\repos\x\x\x.cpp(77): warning C4018: “<=”: 有符号/无符号不匹配
+c:\users\fqxma\source\repos\x\x\x.cpp(141): warning C4244: “初始化”: 从“float”转换到“int”，可能丢失数据
+c:\users\fqxma\source\repos\x\x\x.cpp(142): warning C4244: “初始化”: 从“float”转换到“int”，可能丢失数据
+c:\users\fqxma\source\repos\x\x\x.cpp(212): warning C4305: “-=”: 从“double”到“float”截断
+c:\users\fqxma\source\repos\x\x\x.cpp(216): warning C4305: “+=”: 从“double”到“float”截断
+c:\users\fqxma\source\repos\x\x\x.cpp(88): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17134.0\ucrt\string.h(137): note: 参见“strcpy”的声明
+c:\users\fqxma\source\repos\x\x\x.cpp(401): warning C4018: “<”: 有符号/无符号不匹配
+  imageprocess.cpp
+  正在生成代码...
+  x.vcxproj -> C:\Users\fqxma\source\repos\x\Debug\x.exe
+  x.vcxproj -> C:\Users\fqxma\source\repos\x\Debug\x.pdb (Full PDB)
