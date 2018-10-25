@@ -1,6 +1,7 @@
 ﻿#include <windows.h>
 #include <iostream>
 #include <list>
+#include <fstream>
 
 #include <opencv2/imgproc.hpp>
 #include <opencv2/highgui.hpp>
@@ -23,7 +24,7 @@ vector<string> process_with_chinese;//保存窗口
 LPCWSTR stringToLPCWSTR(std::string orig);//数据类型转化
 void scalePartAverage(const Mat &src, Mat &dst, double xRatio, double yRatio);//转化分辨率
 void scaleIntervalSampling(const Mat &src, Mat &dst, double xRatio, double yRatio);//采样法转化分辨率
-
+string generate_path();
 
 int imageProcessOnChipAndOnVS(uint8_t(*img)[CAMERA_COLS]);
 
@@ -100,6 +101,8 @@ int main(int argc, char **argv)
 	cout << "a键裁剪更多画面左边界（h键相反）\n";
 	cout << "d键裁剪更多画面右边界（k键相反）\n";
 	cout << ">键加重模糊处理平滑边界（<键相反）\n";
+	cout << "*键保存一张图像\n";
+	cout << "+键开始持续保存图像（-键终止保存）\n";
 	cout << "！务必在*  ?：画面获取  *窗口按键盘 ！\n";
 
 
@@ -111,9 +114,9 @@ int main(int argc, char **argv)
 	namedWindow("处理后的图像", WINDOW_NORMAL);
 
 	
-
-
 	int key = 0;//检测到的按键
+	CreateDirectory(L"\\IMG", NULL);
+
 
 	Mat src_orig;
 	Mat src_gray;
@@ -126,6 +129,8 @@ int main(int argc, char **argv)
 	/********************图像裁剪，去除标题栏*************/
 	uint32_t left_cut = 0, right_cut =0,up_cut=0,down_cut=0;
 	float blur_parameter = 4;
+	bool savePic = false;
+	bool KeepSaving = false;
 	/*********************开始办正事**********************/
 	while (key != 27)
 	{
@@ -172,7 +177,12 @@ int main(int argc, char **argv)
 		if (img_result.rows > 0 && img_result.rows > 0) {
 			imshow("处理后的图像", img_result);//显示结果
 		}
-
+		if (savePic||KeepSaving)
+		{
+			string path = generate_path();
+			imwrite(path,img_threshold);
+			if (savePic)savePic = !savePic;
+		}
 
 		key = waitKey(10); // you can change wait time
 		switch (key) {
@@ -216,6 +226,19 @@ int main(int argc, char **argv)
 					blur_parameter += 0.1;
 				cout << "模糊增加，当前blur_parameter=" << blur_parameter << endl;
 				break;
+
+			case '+':
+				cout << "开始持续保存\n";
+				KeepSaving = true;
+				break;
+			case '-':
+				cout << "停止持续保存\n";
+				KeepSaving = false;
+				break;
+			case '*':
+				cout << "保存单张\n";
+				savePic = true;
+				break;
 		}
 
 
@@ -223,7 +246,28 @@ int main(int argc, char **argv)
 
 }
 
+string generate_path() 
+{
+	static int num = 1;
+	while (true) {
+		std::fstream file1;
+		string path = ("\\IMG\\" + to_string(num));
+		path = path + ".bmp";
+		file1.open(path, ios::in);
 
+		if (!file1)
+		{
+			file1.close();
+			return path;
+		}
+		else 
+		{
+			num++;
+		}
+	}
+	
+
+}
 
 Mat hwnd2mat(HWND hwnd)
 {
