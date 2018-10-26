@@ -8,8 +8,9 @@ A virtue platform to run image processing simulation for smartcar race.
 
 现在可以使用 + -和 * 按键保存图像到本地C:\IMG
 
-上传了一个示例地图
-![](media/cf26d53cab972bd013bea1b4a804d0b7.png)
+上传了一个示例地图：
+
+![](media/cf26d53cab972bd013bea1b4a804d0b7.jpg)
 
 ### 零、效果演示
 
