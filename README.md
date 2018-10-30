@@ -3,6 +3,18 @@ VisionSimulator
 A virtue platform to run image processing simulation for smartcar race.
 智能车仿真图像生成平台。
 
+-   Group:哈尔滨工业大学
+
+-   Maintain:fuqingxu
+
+ #### 测试环境：
+
+-      windows 10 最新
+-      visual studio 2017
+-      平台工具集vc14
+-      vs 集成 nuget 以及 nuget 平台获取的 opencv.win.native
+-      Minecraft 1.12.2 （见2.1节第一条）
+
 
 #### 更新
 
