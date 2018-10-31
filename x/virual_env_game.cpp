@@ -24,55 +24,9 @@ void Mat2ChipImg(const Mat target_img);
 void ChipImg2Mat();
 string path;
 string path_base="no";
-Mat preprocess_image(Mat src_orig)
-{
-	
-	cvtColor(src_orig, src_gray, CV_BGR2GRAY);//灰度化
-	//(弃用)Mat src_cut = src_gray(Range(up_cut, src_gray.rows - 1 - down_cut), Range(left_cut, src_gray.cols - 1 - right_cut));//裁剪
-	src_cut = src_gray;
-
-	/*计算高斯滤波核大小*///模糊图像以取得顺滑的边界线
-	int kenel_size_x = 4 * src_cut.rows / _target_hight; if (kenel_size_x % 2 == 0) kenel_size_x += 1;
-	int kenel_size_y = 4 * src_cut.cols / _target_width; if (kenel_size_y % 2 == 0) kenel_size_y += 1;
-	int kenel = (kenel_size_x > kenel_size_y) ? kenel_size_x : kenel_size_y;//取较大的当卷积核
-
-	GaussianBlur(src_cut, src_blur, Size(kenel, kenel), blur_parameter);
-
-	threshold(src_blur, img_threshold, 0, 255, CV_THRESH_OTSU);//大津法二值化
-	Size size(_target_width, _target_hight);
-	resize(img_threshold, target_img, size,NULL,NULL, INTER_AREA);
-	threshold(target_img, target_img, 125 , 255 , CV_THRESH_BINARY);
-	target_img.copyTo(img_result);//复制图像
-
-
-
-	return target_img;
-	//target_img is the result
-}
-void showImageAndSaveThem() 
-{
-	if (src_blur.rows > 0 && src_blur.rows > 0) {
-		imshow("模糊和二值化后的图像", img_threshold);//显示采集后模糊的图像
-	}
-	if (img_threshold.rows > 0 && img_threshold.rows > 0) {
-		imshow("转化分辨率后的图像", target_img);//显示…………的图像
-	}
-	if (img_result.rows > 0 && img_result.rows > 0) {
-		imshow("处理后的图像", img_result);//显示结果
-	}
-	if (savePic || KeepSaving)
-	{
-		if (path_base == "no") 
-		{
-			path_base = selectPath();
-			path_base = path_base + "\\";
-		}
-		path = generate_path(path_base);
-		imwrite(path, img_threshold);
-		if (savePic)savePic = !savePic;
-	}
-
-}
+Mat preprocess_image(Mat src_orig);
+void showImageAndSaveThem();
+bool showing_result_already_handled = false;
 void virual_env_game()
 {
 	HWND hq = get_minecraft_window();
@@ -92,8 +46,11 @@ void virual_env_game()
 		if (!(src_orig.rows > 0 && src_orig.rows > 0)) continue;/*图像异常，终止*/
 		target_img = preprocess_image(src_orig);/*灰度化、裁剪、模糊、二值化、改变大小*/
 		/********************************************************************/
+		//showing_result_already_handled是个标志位
+		//在imageProcessOnChipAndOnVS中调用绘制img_result后，将避免再次绘制
 		/********************************************************************/
 		Mat2ChipImg(target_img);///////////////////////////////////////////**/
+		showing_result_already_handled = false;////////////////////////////**/
 		///////////////////////////////////////////////////////////////////**/
 		//////////////////////图像处理程序在此/////////////////////////////**/
 		///////////////////////////////////////////////////////////////////**/
@@ -102,7 +59,8 @@ void virual_env_game()
 		///////////////////////////////////////////////////////////////////**/
 		///////////////////////////////////////////////////////////////////**/
 		///////////////////////////////////////////////////////////////////**/
-		ChipImg2Mat();/////////////////////////////////////////////////////**/
+		if (!showing_result_already_handled) ChipImg2Mat();////////////////**/
+		///////////////////////////////////////////////////////////////////**/
 		/********************************************************************/
 		/********************************************************************/
 		showImageAndSaveThem();
@@ -128,6 +86,7 @@ void Mat2ChipImg(const Mat target_img)
 		cout << "something is wrong";
 	}
 }
+
 void ChipImg2Mat()
 {
 	for (int i = 0; i < img_result.rows; i++) {//处理完后装入Mat中，待显示
@@ -250,3 +209,76 @@ HWND get_minecraft_window()
 
 }
 
+void img_result_light(int row, int col, int r = 80, int g = 125, int b = 40);
+void img_result_fill(uint8_t(*image)[_target_width]);
+
+
+void img_result_light(int row, int col, int r , int g , int b )
+{
+	if (row >= 0 && row < img_result.rows&&col >= 0 && col < img_result.cols) {
+		Vec3b vv(r, g, b);
+		img_result.at<Vec3b>(row, col) = vv;
+		showing_result_already_handled = true;
+	}
+
+}
+void img_result_fill(uint8_t(*image)[_target_width])
+{
+	for (int r = 0; r < _target_hight; r++) {
+		for (int c = 0; c < _target_width; c++) {
+			int value = image[r][c];
+			img_result_light(r, c, value, value, value);
+		}
+	}
+}
+
+
+Mat preprocess_image(Mat src_orig)
+{
+
+	cvtColor(src_orig, src_gray, CV_BGR2GRAY);//灰度化
+	//(弃用)Mat src_cut = src_gray(Range(up_cut, src_gray.rows - 1 - down_cut), Range(left_cut, src_gray.cols - 1 - right_cut));//裁剪
+	src_cut = src_gray;
+
+	/*计算高斯滤波核大小*///模糊图像以取得顺滑的边界线
+	int kenel_size_x = 4 * src_cut.rows / _target_hight; if (kenel_size_x % 2 == 0) kenel_size_x += 1;
+	int kenel_size_y = 4 * src_cut.cols / _target_width; if (kenel_size_y % 2 == 0) kenel_size_y += 1;
+	int kenel = (kenel_size_x > kenel_size_y) ? kenel_size_x : kenel_size_y;//取较大的当卷积核
+
+	GaussianBlur(src_cut, src_blur, Size(kenel, kenel), blur_parameter);
+
+	threshold(src_blur, img_threshold, 0, 255, CV_THRESH_OTSU);//大津法二值化
+	Size size(_target_width, _target_hight);
+	resize(img_threshold, target_img, size, NULL, NULL, INTER_AREA);
+	threshold(target_img, target_img, 125, 255, CV_THRESH_BINARY);
+
+	cvtColor(target_img, img_result, cv::COLOR_GRAY2BGR);//复制图像
+
+
+	return target_img;
+	//target_img is the result
+}
+void showImageAndSaveThem()
+{
+	if (src_blur.rows > 0 && src_blur.rows > 0) {
+		imshow("模糊和二值化后的图像", img_threshold);//显示采集后模糊的图像
+	}
+	if (img_threshold.rows > 0 && img_threshold.rows > 0) {
+		imshow("转化分辨率后的图像", target_img);//显示…………的图像
+	}
+	if (img_result.rows > 0 && img_result.rows > 0) {
+		imshow("处理后的图像", img_result);//显示结果
+	}
+	if (savePic || KeepSaving)
+	{
+		if (path_base == "no")
+		{
+			path_base = selectPath();
+			path_base = path_base + "\\";
+		}
+		path = generate_path(path_base);
+		imwrite(path, img_threshold);
+		if (savePic)savePic = !savePic;
+	}
+
+}

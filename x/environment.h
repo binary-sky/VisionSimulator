@@ -4,3 +4,6 @@
 #define RUN_ON_VS		//指示当前环境是电脑
 
 //#define RUN_ON_CHIP	//指示当前环境是单片机
+
+
+

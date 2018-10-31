@@ -13,26 +13,26 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="源文件\imageprocess">
+      <UniqueIdentifier>{642ce974-84e6-46b9-b829-39d84d098c58}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="environment.h">
+    <ClInclude Include="addtional_functions.h">
       <Filter>源文件</Filter>
     </ClInclude>
     <ClInclude Include="extVarContainer.h">
-      <Filter>源文件</Filter>
+      <Filter>源文件\imageprocess</Filter>
     </ClInclude>
-    <ClInclude Include="addtional_functions.h">
+    <ClInclude Include="environment.h">
       <Filter>源文件</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="imageprocess.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="startup.cpp">
@@ -43,6 +43,9 @@
     </ClCompile>
     <ClCompile Include="virual_env_game.cpp">
       <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="imageprocess.cpp">
+      <Filter>源文件\imageprocess</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
