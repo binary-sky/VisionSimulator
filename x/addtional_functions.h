@@ -9,7 +9,10 @@
 #include <fstream>
 #include <opencv2/imgproc.hpp>
 #include <opencv2/highgui.hpp>
-#include "extVarContainer.h"
+
+
+#define CAMERA_ROWS 60
+#define CAMERA_COLS 80
 
 #define _target_width  CAMERA_COLS //80*60的灰度图
 #define _target_hight  CAMERA_ROWS //80*60的灰度图
@@ -33,7 +36,7 @@ void find_file_in_path(string directoryPath, vector<string> &bmp_filenames);//搜
 void change_console_color(int k);
 string selectPath();//选择目录
 /***************************************************************************/
-int imageProcessOnChipAndOnVS(uint8_t(*img)[CAMERA_COLS]);//图像处理核心/***/
+void imageProcessOnChipAndOnVS(uint8_t(*img)[CAMERA_COLS]);//图像处理核心/***/
 /***************************************************************************/
 
 
