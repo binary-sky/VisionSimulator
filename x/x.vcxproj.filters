@@ -24,15 +24,24 @@
     <ClInclude Include="extVarContainer.h">
       <Filter>源文件</Filter>
     </ClInclude>
+    <ClInclude Include="addtional_functions.h">
+      <Filter>源文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="x.cpp">
+    <ClCompile Include="imageprocess.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="imageprocess.cpp">
+    <ClCompile Include="startup.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="addtional_functions.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="virual_env_game.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
