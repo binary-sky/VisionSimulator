@@ -7,6 +7,8 @@ A virtue platform to run image processing simulation for smartcar race.
 
 -   Maintain:fuqingxu
 
+-   Contact:qq_505030475
+
  #### 测试环境：
 
 -      windows 10 最新
@@ -43,8 +45,8 @@ A virtue platform to run image processing simulation for smartcar race.
 -   opencv.win.native nuget包
 
 -   打开工程下图选择“无升级”
+<img src="media/f97065851533eb2d713b831275a456e8.png" width="50%" height="50%" />
 
-![](media/f97065851533eb2d713b831275a456e8.png)
 
 ### 二、基于minecraft的图像虚拟平台
 
@@ -60,11 +62,12 @@ A virtue platform to run image processing simulation for smartcar race.
 
 安装后，打开我提供的example世界。如何制作世界请自行参考其他资料。
 
-![](media/cf26d53cab972bd013bea1b4a804d0b6.png)
+<img src="media/cf26d53cab972bd013bea1b4a804d0b6.png" width="50%" height="50%" />
 
-![](media/59c188febbb20bbf1d3bddcc2271dd56.png)
+<img src="media/59c188febbb20bbf1d3bddcc2271dd56.png" width="50%" height="50%" />
 
-![](media/4623649585d3b23fcdaf4ddba341b24f.png)
+<img src="media/4623649585d3b23fcdaf4ddba341b24f.png" width="50%" height="50%" />
+
 
 1.  使用独立显卡运行游戏！
 
@@ -89,6 +92,11 @@ A virtue platform to run image processing simulation for smartcar race.
 11. /weather rain 雪花噪点
 
 12. F3查看当前坐标：所处高度，摄像头指向等
+
+13. 锁定时间请自行查找命令
+
+14. 地图制作：使用AUTOCAD导出图片，然后SpritecraftFull将图片转schematic，最后使用mcedit制作地图，相关工具恕不能上传。
+
 
 #### 2.2 VisionSimulator
 
