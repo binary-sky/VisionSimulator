@@ -28,7 +28,6 @@ A virtue platform to run image processing simulation for smartcar race.
 
 上传了一个示例地图：
 
-![](media/cf26d53cab972bd013bea1b4a804d0b7.jpg)
 
 ### 零、效果演示
 
