@@ -9,6 +9,8 @@ A virtue platform to run image processing simulation for smartcar race.
 
 -   Contact:qq_505030475
 
+<img src="media/logo.png" width="90%" height="90%" />
+
  #### 测试环境：
 
 -      windows 10 最新
