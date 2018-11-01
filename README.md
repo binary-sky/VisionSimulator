@@ -20,9 +20,11 @@ A virtue platform to run image processing simulation for smartcar race.
 
 此次更新很多
 
+![](media/e1.gif)
+
 先可以处理图片文件
 
-现在可以使用 + -和 * 按键保存图像到本地C:\IMG
+现在可以使用 + -和 * 按键保存图像到任意选定位置
 
 上传了一个示例地图：
 
