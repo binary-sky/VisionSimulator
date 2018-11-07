@@ -8,9 +8,8 @@ A virtue platform to run image processing simulation for smartcar race.
 -   Maintain:fuqingxu
 
 -   Contact:qq_505030475
-<div style="align: center">
-<img src="media/logo.png" width="90%" height="90%" />
-</div>
+
+<img src="media/logo.png" width="90%" height="90%" div align=center />
 
 
  #### 测试环境：
@@ -34,7 +33,7 @@ A virtue platform to run image processing simulation for smartcar race.
 
 上传了一个示例地图：
 
-<img src="media/cf26d53cab972bd013bea1b4a804d0b7.jpg" width="35%" height="35%" />
+<center><img src="media/cf26d53cab972bd013bea1b4a804d0b7.jpg" width="35%" height="35%" /></center>
 
 ### 零、效果演示
 
@@ -49,7 +48,7 @@ A virtue platform to run image processing simulation for smartcar race.
 -   opencv.win.native nuget包
 
 -   打开工程下图选择“无升级”
-<img src="media/f97065851533eb2d713b831275a456e8.png" width="50%" height="50%" />
+<center><img src="media/f97065851533eb2d713b831275a456e8.png" width="50%" height="50%" /></center>
 
 
 ### 二、基于minecraft的图像虚拟平台
@@ -143,33 +142,27 @@ A virtue platform to run image processing simulation for smartcar race.
 
 使用下面的代码进行边界柔和以及二值化。
 ```
-cvtColor(src_orig, src_gray, CV_BGR2GRAY);//灰度化
+	cvtColor(src_orig, src_gray, CV_BGR2GRAY);//灰度化
+	//(弃用)Mat src_cut = src_gray(Range(up_cut, src_gray.rows - 1 - down_cut), Range(left_cut, src_gray.cols - 1 - right_cut));//裁剪
+	src_cut = src_gray;
 
-Mat src_cut = src_gray(Range(up_cut, src_gray.rows-1-down_cut), Range(left_cut,
-src_gray.cols-1-right_cut));//裁剪
+	/*计算高斯滤波核大小*///模糊图像以取得顺滑的边界线
+	int kenel_size_x = 4 * src_cut.rows / _target_hight; if (kenel_size_x % 2 == 0) kenel_size_x += 1;
+	int kenel_size_y = 4 * src_cut.cols / _target_width; if (kenel_size_y % 2 == 0) kenel_size_y += 1;
+	int kenel = (kenel_size_x > kenel_size_y) ? kenel_size_x : kenel_size_y;//取较大的当卷积核
 
-const int \_target_width = 80;//转化为80\*60的灰度图
+	GaussianBlur(src_cut, src_blur, Size(kenel, kenel), blur_parameter);
 
-const int \_target_hight = 60;//转化为80\*60的灰度图
+	threshold(src_blur, img_threshold, 0, 255, CV_THRESH_OTSU);//大津法二值化
+	Size size(_target_width, _target_hight);
+	resize(img_threshold, target_img, size, NULL, NULL, INTER_AREA);
+	threshold(target_img, target_img, 125, 255, CV_THRESH_BINARY);
 
-int kenel_size_x = blur_parameter \* src_cut.rows / \_target_hight; if
-(kenel_size_x % 2 == 0) kenel_size_x += 1;
+	cvtColor(target_img, img_result, cv::COLOR_GRAY2BGR);//复制图像
 
-int kenel_size_y = blur_parameter \* src_cut.cols / \_target_width; if
-(kenel_size_y % 2 == 0) kenel_size_y += 1;
 
-int kenel = (kenel_size_x \> kenel_size_y) ? kenel_size_x :
-kenel_size_y;//取较大的当卷积核
-
-blur(src_cut, src_blur, Size(kenel, kenel));//模糊图像以取得顺滑的边界线
-
-scaleIntervalSampling(src_blur, target_img,
-
-(double)_target_hight / (src_blur.rows),
-
-(double)_target_width / (src_blur.cols));//转化为80\*60的灰度图
-
-threshold(target_img, img_threshold, 0, 255, CV_THRESH_OTSU);//大津法二值化
+	return target_img;
+	//target_img is the result
 ```
 ##### 2.2.6 图像处理接口
 
@@ -194,74 +187,65 @@ int imageProcessOnChipAndOnVS(uint8_t (\*img)[CAMERA_COLS])
 
 {
 
-for (int i = 10; i \< CAMERA_ROWS - 10; i++)//测试：在图像中画一条竖线
+     for (int i = 10; i \< CAMERA_ROWS - 10; i++)//测试：在图像中画一条竖线
 
-{
+     {
 
-for (int j = 10; j \< CAMERA_COLS - 10; j++)
+           for (int j = 10; j \< CAMERA_COLS - 10; j++)
 
-{
+           {
 
-if (j == 40)
+                 if (j == 40)
 
-{
+                 {
 
-img[i][j] = 125;
+                     img[i][j] = 125;
 
-}
+                 }
 
-}
+           }
 
-}
+     }
 
-return 0;
+     return 0;
 
 }
 ```
 -   主程序中的图像处理函数接口：
 ```
-if (src_blur.rows \> 0 && src_blur.rows \> 0) {
+	while (true)/*********************开始办正事**********************/
+	{
+     src_orig = hwnd2mat(hq);/*游戏画面获取*/
+     if (!(src_orig.rows > 0 && src_orig.rows > 0)) continue;/*图像异常，终止*/
+     target_img = preprocess_image(src_orig);/*灰度化、裁剪、模糊、二值化、改变大小*/
+     /********************************************************************/
+     //showing_result_already_handled是个标志位
+     //在imageProcessOnChipAndOnVS中调用绘制img_result后，将避免再次绘制
+     /********************************************************************/
+     Mat2ChipImg(target_img);///////////////////////////////////////////**/
+     showing_result_already_handled = false;////////////////////////////**/
+     ///////////////////////////////////////////////////////////////////**/
+     //////////////////////图像处理程序在此/////////////////////////////**/
+     ///////////////////////////////////////////////////////////////////**/
+     ///////////////////////////////////////////////////////////////////**/
+     imageProcessOnChipAndOnVS(image_OnChip);///////////////////////////**/
+     ///////////////////////////////////////////////////////////////////**/
+     ///////////////////////////////////////////////////////////////////**/
+     ///////////////////////////////////////////////////////////////////**/
+     if (!showing_result_already_handled) ChipImg2Mat();////////////////**/
+     ///////////////////////////////////////////////////////////////////**/
+     /********************************************************************/
+     /********************************************************************/
+     showImageAndSaveThem();
 
-imshow(outputname, src_blur);//显示采集后模糊的图像
-
-}
-
-if (img_threshold.rows \> 0 && img_threshold.rows \> 0) {
-
-imshow("转化灰度和分辨率后的图像", img_threshold);//显示…………的图像
-
-}
-
-for (int i = 0; i \< img_threshold.rows; i++) {//转入八位数组中待处理
-
-for (int j = 0; j \< img_threshold.cols; j++) {
-
-image_target[i][j] = img_threshold.at\<uint8_t\>(i, j);
-
-}
-
-}
-
-/\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*图像处理接口\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*/
-
-imageProcessOnChipAndOnVS(image_target);
-
-/\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*图像处理接口\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*/
-
-for (int i = 0; i \< img_result.rows; i++) {//处理完后装入Mat中，待显示
-
-for (int j = 0; j \< img_result.cols; j++) {
-
-img_result.at\<uint8_t\>(i, j)=image_target[i][j];
-
-}
-
-}
-
-if (img_result.rows \> 0 && img_result.rows \> 0) {
-
-imshow("处理后的图像", img_result);//显示结果
-
-}
+     key = waitKey(10); //等待按键的时间
+     keyProcess(key);
+	}
 ```
-### 三、coming soon
+### 三、从文件
+
+-   启动程序
+-   输入2选择从文件复现功能
+-   选择图片所在的文件夹（程序会自动对文件名进行排序，筛选出BMP，JPG，PNG文件）
+-   进入imageProcessOnChipAndOnVS(image_OnChip)函数处理图像
+-   当鼠标停留在图片上时会在控制台上显示鼠标指针所在像素的位置和像素值
