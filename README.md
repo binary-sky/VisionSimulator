@@ -8,8 +8,10 @@ A virtue platform to run image processing simulation for smartcar race.
 -   Maintain:fuqingxu
 
 -   Contact:qq_505030475
-
+<div style="align: center">
 <img src="media/logo.png" width="90%" height="90%" />
+</div>
+
 
  #### 测试环境：
 
@@ -63,6 +65,7 @@ A virtue platform to run image processing simulation for smartcar race.
 -   Windows应用商店版本（付费）
 
 安装后，打开我提供的example世界。如何制作世界请自行参考其他资料。
+<div style="align: center">
 
 <img src="media/cf26d53cab972bd013bea1b4a804d0b6.png" width="50%" height="50%" />
 
@@ -70,6 +73,7 @@ A virtue platform to run image processing simulation for smartcar race.
 
 <img src="media/4623649585d3b23fcdaf4ddba341b24f.png" width="50%" height="50%" />
 
+</div>
 
 1.  使用独立显卡运行游戏！
 
@@ -99,6 +103,7 @@ A virtue platform to run image processing simulation for smartcar race.
 
 14. 地图制作：使用AUTOCAD导出图片，然后SpritecraftFull将图片转schematic，最后使用mcedit制作地图，相关工具恕不能上传。
 
+15. 为了严格保持视角的俯仰角不变化，建议开启Windows的“鼠标键”功能，即使用数字键4,6,2,8来控制鼠标简介控制视角的水平转动。
 
 #### 2.2 VisionSimulator
 
@@ -107,7 +112,10 @@ A virtue platform to run image processing simulation for smartcar race.
 使用Visual Studio 2017或Visual Studio
 2015,为保证程序能够正确编译，请配置平台工具集为Visual Studio 2015（v140）。
 
-![](media/d330637a05e348c26a64147c0a10a52c.png)
+<div style="align: center">
+<img src="media/d330637a05e348c26a64147c0a10a52c.png" width="90%" height="90%" />
+</div>
+
 
 否则nuget获得的opencv会出问题。
 
@@ -115,13 +123,17 @@ A virtue platform to run image processing simulation for smartcar race.
 
 编译运行，程序检测所有windows窗体，选择其中的Minecraft窗体，如图：
 
-![](media/332a87578f3fe35fa43f8c1d4cb92bed.png)
+<div style="align: center">
+<img src="media/332a87578f3fe35fa43f8c1d4cb92bed.png" />
+</div>
 
 ##### 2.2.3 运行
 
 将游戏界面拖到你能看到的位置，此时程序将会实时捕获游戏界面。
 
-![](media/6ca6cc4f32a74fd52a0c9a70d9355788.png)
+<div style="align: center">
+<img src="media/6ca6cc4f32a74fd52a0c9a70d9355788.png" />
+</div>
 
 ##### 2.2.4 裁剪
 
@@ -130,7 +142,7 @@ A virtue platform to run image processing simulation for smartcar race.
 ##### 2.2.5边界柔和以及二值化
 
 使用下面的代码进行边界柔和以及二值化。
-
+```
 cvtColor(src_orig, src_gray, CV_BGR2GRAY);//灰度化
 
 Mat src_cut = src_gray(Range(up_cut, src_gray.rows-1-down_cut), Range(left_cut,
@@ -158,7 +170,7 @@ scaleIntervalSampling(src_blur, target_img,
 (double)_target_width / (src_blur.cols));//转化为80\*60的灰度图
 
 threshold(target_img, img_threshold, 0, 255, CV_THRESH_OTSU);//大津法二值化
-
+```
 ##### 2.2.6 图像处理接口
 
 -   三个文件负责处理图像：
@@ -166,7 +178,7 @@ threshold(target_img, img_threshold, 0, 255, CV_THRESH_OTSU);//大津法二值�
 ![](media/53aecdb98d2cdc4d95ccd701dddb7d55.png)
 
 -   测试的图像处理函数的内容
-
+```
 //下面几个头文件使得该文件（imageprocess）可以跨越单片机和电脑，复制粘贴后即可运行在单片机上
 
 //请在单片机和电脑上编写不同的"environment.h"和"extVarContainer.h"
@@ -205,9 +217,9 @@ img[i][j] = 125;
 return 0;
 
 }
-
+```
 -   主程序中的图像处理函数接口：
-
+```
 if (src_blur.rows \> 0 && src_blur.rows \> 0) {
 
 imshow(outputname, src_blur);//显示采集后模糊的图像
@@ -251,5 +263,5 @@ if (img_result.rows \> 0 && img_result.rows \> 0) {
 imshow("处理后的图像", img_result);//显示结果
 
 }
-
+```
 ### 三、coming soon
