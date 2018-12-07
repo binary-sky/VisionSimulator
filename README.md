@@ -1,6 +1,6 @@
 VisionSimulator
 ===============
-A virtue platform to run image processing simulation for smartcar race.
+A virtual platform to run image processing simulation for smartcar race.
 智能车仿真图像生成平台。
 
 -   Group:哈尔滨工业大学
